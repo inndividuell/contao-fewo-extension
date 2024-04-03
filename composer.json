@@ -56,7 +56,7 @@
             "bin-links": false,
             "target-directory": "tools"
         },
-        "contao-manager-plugin": "Inndividuell\\ContaoPhpVersion\\ContaoManager\\Plugin"
+        "contao-manager-plugin": "Inndividuell\\ContaoFewoExtension\\ContaoManager\\Plugin"
     },
     "scripts": {
         "all": [
