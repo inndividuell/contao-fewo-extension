@@ -36,12 +36,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Inndividuell\\ContaoPhpVersion\\": "src/"
+            "Inndividuell\\ContaoFewoExtension\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Inndividuell\\ContaoPhpVersion\\Tests\\": "tests/"
+            "Inndividuell\\ContaoFewoExtension\\Tests\\": "tests/"
         }
     },
     "config": {
