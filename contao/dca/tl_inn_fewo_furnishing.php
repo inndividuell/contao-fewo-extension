@@ -219,8 +219,5 @@ class tl_inn_fewo_furnishing extends Backend
         return $html;
     }
 
-    public function getTableLabels()
-    {
-        return Database::getInstance()->query("SELECT id,title FROM tl_inn_fewo_furnishing ORDER BY title")->fetchPairs();
-    }
+
 }

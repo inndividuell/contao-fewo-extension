@@ -62,6 +62,12 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['fewoFurnishings'] = array
     'exclude'               => true,
     'search'                => true,
     'inputType'             => 'checkbox',
-    'options_callback'        => ['tl_inn_fewo_furnishing', 'getTableLabels'],
+    'options_callback'        => ['tl_inn_page', 'getTableLabels'],
     'sql'                   => 'blob  NULL'
 );
+class tl_inn_page {
+    public function getTableLabels()
+    {
+        return Database::getInstance()->query("SELECT id,title FROM tl_inn_fewo_furnishing ORDER BY title")->fetchPairs();
+    }
+}
