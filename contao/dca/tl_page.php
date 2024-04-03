@@ -9,9 +9,54 @@ foreach ($GLOBALS['TL_DCA']['tl_page']['palettes'] as $name => $palette)
         continue;
     }
 
-    $GLOBALS['TL_DCA']['tl_page']['palettes'][$name] = str_replace('{meta_legend}', '{fewo_legend:hide},fewoPersons,fewoPersonsText,fewoQM,fewoQMText,fewoBeds,fewoBedsText,fewoFurnishings;{meta_legend}', $palette);
+    $GLOBALS['TL_DCA']['tl_page']['palettes'][$name] = str_replace('{meta_legend}', '{fewo_legend:hide}fewoName,fewoListText1,fewoListText2,fewoImage,fewoSliderImages,fewoPersons,fewoPersonsText,fewoQM,fewoQMText,fewoBeds,fewoBedsText,fewoFurnishings;{meta_legend}', $palette);
     $GLOBALS['TL_DCA']['tl_page']['fields']['type']['eval']['gallery_types'][] = $name;
 }
+$GLOBALS['TL_DCA']['tl_page']['fields']['fewoImage'] = array
+(
+    'label'         => &$GLOBALS['TL_LANG']['tl_page']['fewoImage'],
+    'inputType'     => 'fileTree',
+    'exclude'       => true,
+    'eval'          => array('fieldType'=>'radio', 'multiple'=>false, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
+    'sql'           => "blob NULL",
+);
+$GLOBALS['TL_DCA']['tl_page']['fields']['fewoSliderImages'] = array
+(
+    'label'         => &$GLOBALS['TL_LANG']['tl_page']['fewoSliderImages'],
+    'inputType'     => 'fileTree',
+    'exclude'       => true,
+    'eval'          => array('fieldType'=>'radio', 'orderField'=>'fewoImageOrder', 'multiple'=>false, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
+    'sql'           => "blob NULL",
+);
+$GLOBALS['TL_DCA']['tl_page']['fields']['fewoImageOrder'] = array
+(
+    'eval'          => array('doNotShow'=>true),
+    'sql'           => "blob NULL",
+);
+$GLOBALS['TL_DCA']['tl_page']['fields']['fewoListText1'] = array
+(
+    'label'         => &$GLOBALS['TL_LANG']['tl_page']['fewoListText1'],
+    'exclude'               => true,
+    'search'                => true,
+    'inputType'             => 'text',
+    'sql'                   => 'text  NULL'
+);
+$GLOBALS['TL_DCA']['tl_page']['fields']['fewoListText2'] = array
+(
+    'label'         => &$GLOBALS['TL_LANG']['tl_page']['fewoListText2'],
+    'exclude'               => true,
+    'search'                => true,
+    'inputType'             => 'text',
+    'sql'                   => 'text  NULL'
+);
+$GLOBALS['TL_DCA']['tl_page']['fields']['fewoName'] = array
+(
+    'label'         => &$GLOBALS['TL_LANG']['tl_page']['fewoName'],
+    'exclude'               => true,
+    'search'                => true,
+    'inputType'             => 'text',
+    'sql'                   => 'text  NULL'
+);
 $GLOBALS['TL_DCA']['tl_page']['fields']['fewoPersons'] = array
 (
     'label'         => &$GLOBALS['TL_LANG']['tl_page']['fewoPersons'],
