@@ -56,3 +56,12 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['fewoBedsText'] = array
     'inputType'             => 'text',
     'sql'                   => 'text  NULL'
 );
+$GLOBALS['TL_DCA']['tl_page']['fields']['fewoFurnishings'] = array
+(
+    'label'         => &$GLOBALS['TL_LANG']['tl_page']['fewoFurnishings'],
+    'exclude'               => true,
+    'search'                => true,
+    'inputType'             => 'checkbox',
+    'options_callback'        => ['tl_inn_fewo_furnishing', 'getTableLabels'],
+    'sql'                   => 'blob  NULL'
+);
