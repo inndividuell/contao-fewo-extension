@@ -1,4 +1,8 @@
 <?php
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\CoreBundle\Exception\PaletteNotFoundException;
+use Contao\Controller;
+use Contao\Database;
 foreach ($GLOBALS['TL_DCA']['tl_page']['palettes'] as $name => $palette)
 {
     if ($name == '__selector__') {
@@ -62,12 +66,18 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['fewoFurnishings'] = array
     'exclude'               => true,
     'search'                => true,
     'inputType'             => 'checkbox',
+    'eval'                    => ['multiple'=>true],
     'options_callback'        => ['tl_inn_page', 'getTableLabels'],
     'sql'                   => 'blob  NULL'
 );
 class tl_inn_page {
     public function getTableLabels()
     {
-        return Database::getInstance()->query("SELECT id,title FROM tl_inn_fewo_furnishing ORDER BY title")->fetchPairs();
+        $options = \Database::getInstance()->query("SELECT id,title FROM tl_inn_fewo_furnishing WHERE published=1 ORDER BY title")->fetchAllAssoc();
+        $return_array = array();
+        foreach ($options as $option){
+            $return_array[$option['id']] = $option['title'];
+        }
+        return $return_array;
     }
 }
