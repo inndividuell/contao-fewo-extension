@@ -13,6 +13,6 @@ namespace Inndividuell\ContaoFewoExtension;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class ContaoFewoExtensionBundle extends Bundle
+class FewoExtensionBundle extends Bundle
 {
 }
