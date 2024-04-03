@@ -49,7 +49,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
         (
             'fields'                  => array('id','image', 'title'),
             'showColumns'             => true,
-            'label_callback'            => array('tl_inn_products_manufacturers', 'getListData')
+            'label_callback'            => array('tl_inn_fewo_furnishing', 'getListData')
         ),
         'global_operations' => array
         (
