@@ -19,7 +19,7 @@ use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Versions;
-$GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
+$GLOBALS['TL_DCA']['tl_inn_fewos'] = array
 (
     // Config
     'config' => array
