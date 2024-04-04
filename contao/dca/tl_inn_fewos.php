@@ -174,7 +174,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
         (
             'inputType'     => 'fileTree',
             'exclude'       => true,
-            'eval'          => array('fieldType'=>'radio', 'orderField'=>'sliderImagesOrder', 'multiple'=>false, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
+            'eval'          => array('fieldType'=>'checkbox', 'orderField'=>'sliderImagesOrder', 'multiple'=>true, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
             'sql'           => "blob NULL",
         ),
         'sliderImagesOrder' => array
