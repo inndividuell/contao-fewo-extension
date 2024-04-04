@@ -195,13 +195,12 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_services'] = array
                     (
                         'label' => &$GLOBALS['TL_LANG']['tl_table_name']['headline'],
                         'inputType' => 'text',
-                        'eval' => array('mandatory'=>true)
                     ),
                     'text' => array
                     (
                         'label' => &$GLOBALS['TL_LANG']['tl_table_name']['text'],
                         'inputType' => 'textarea',
-                        'eval' => ['rte'=>'tinyMCE','mandatory'=>true],
+                        'eval' => ['rte'=>'tinyMCE'],
                     )
                 )
             ),
