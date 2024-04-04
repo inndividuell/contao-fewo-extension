@@ -121,7 +121,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
 
     'palettes' => array
     (
-        'default'                     => '{title_legend},name,additional_name,image,text,published;{data_legend},persons,beds,qm,furnishings;{address_legend},address_street,address_city,address_postcode;',
+        'default'                     => '{title_legend},name,additional_name,image,text,published;{data_legend},persons,beds,qm,parking_slots,bathrooms,furnishings;{address_legend},address_street,address_city,address_postcode;',
 
     ),
 
@@ -211,6 +211,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
         'persons' => array
         (
             'exclude'                 => true,
+            'fewo_field'              => true,
             'search'                  => true,
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
@@ -219,6 +220,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
         'beds' => array
         (
             'exclude'                 => true,
+            'fewo_field'              => true,
             'search'                  => true,
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
@@ -227,6 +229,24 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
         'qm' => array
         (
             'exclude'                 => true,
+            'fewo_field'              => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'parking_slots' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'bathrooms' => array
+        (
+            'exclude'                 => true,
+            'fewo_field'              => true,
             'search'                  => true,
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>false, 'maxlength'=>255),

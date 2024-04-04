@@ -121,7 +121,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
 
     'palettes' => array
     (
-        'default'                     => '{title_legend},title,image,text,published;',
+        'default'                     => '{title_legend},title,image,list_image,text,map_to_fewo_field,show_on_list,published;',
 
     ),
 
@@ -184,6 +184,15 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
             'inputType'               => 'checkbox',
             'sql'                     => "char(1) NOT NULL default ''"
         ),
+        'map_to_fewo_field' => array
+        (
+            'exclude'               => true,
+            'search'                => true,
+            'inputType'             => 'radio',
+            'eval'                    => ['multiple'=>false],
+            'options_callback'        => ['tl_inn_fewo_furnishing', 'getFewoFields'],
+            'sql'                   => 'blob  NULL'
+        ),
 
         'published' => array
         (
@@ -232,6 +241,20 @@ class tl_inn_fewo_furnishing extends Backend
         $html.= '<span class="title">' . strip_tags($product['title']) . '</span>';
         $html.= '</div>';
         return $html;
+    }
+
+    public function getFewoFields()
+    {
+        $return_array = array();
+        $fewo_fields = $GLOBALS['TL_DCA']['tl_inn_fewos']['fields'];
+        foreach ($fewo_fields as $field_name =>$field){
+            if(isset($field["fewo_field"])){
+                if($field["fewo_field"]){
+                    $return_array[$field_name] = $field_name;
+                }
+            }
+        }
+        return $return_array;
     }
 
 
