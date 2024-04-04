@@ -24,7 +24,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
     // Config
     'config' => array
     (
-        'label' => 'Ausstattungen',
+        'label' => 'Ferienwohnungen',
         'dataContainer'               => 'Table',
         'enableVersioning'            => true,
         'sql' => array
