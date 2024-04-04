@@ -121,7 +121,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
 
     'palettes' => array
     (
-        'default'                     => '{title_legend},name,additional_name,image,text,published;{data_legend},persons,beds,qm,balconies,parking_slots,bathrooms,furnishings;{address_legend},address_street,address_city,address_postcode;',
+        'default'                     => '{title_legend},name,additional_name,image,text,detail_page,custom_url,published;{data_legend},persons,beds,qm,balconies,parking_slots,bathrooms,furnishings;{address_legend},address_street,address_city,address_postcode;',
 
     ),
 
@@ -270,6 +270,22 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
             'eval'                    => ['multiple'=>true],
             'options_callback'        => ['tl_inn_fewos', 'getTableLabels'],
             'sql'                   => 'blob  NULL'
+        ),
+        'detail_page' => array
+        (
+            'exclude'                 => true,
+            'inputType'               => 'pageTree',
+            'eval'                    => array('fieldType'=>'radio'),
+            'sql'                     => "int(10) unsigned NOT NULL default '0'",
+            'foreignKey'              => 'tl_page.title',
+            'relation'                => array('type'=>'belongsTo', 'load'=>'lazy'),
+        ),
+        'custom_url' => array
+        (
+            'exclude' => true,
+            'inputType' => 'text',
+            'eval' => array('rgxp'=>'url', 'maxlength'=>255),
+            'sql' => "varchar(255) NOT NULL default ''",
         ),
 
         'published' => array
