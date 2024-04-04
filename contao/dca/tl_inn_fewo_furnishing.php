@@ -121,7 +121,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
 
     'palettes' => array
     (
-        'default'                     => '{title_legend},title,image,list_image,text,map_to_fewo_field,show_on_list,published;',
+        'default'                     => '{title_legend},title,image,list_image,text,map_to_fewo_field,show_on_list,show_on_detail,published;',
 
     ),
 
@@ -178,6 +178,13 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
         ),
 
         'show_on_list' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'checkbox',
+            'sql'                     => "char(1) NOT NULL default ''"
+        ),
+        'show_on_detail' => array
         (
             'exclude'                 => true,
             'search'                  => true,
