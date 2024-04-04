@@ -9,7 +9,7 @@ foreach ($GLOBALS['TL_DCA']['tl_page']['palettes'] as $name => $palette)
         continue;
     }
 
-    $GLOBALS['TL_DCA']['tl_page']['palettes'][$name] = str_replace('{meta_legend}', '{fewo_legend:hide}fewoName,fewoListText1,fewoListText2,fewoImage,fewoSliderImages,fewoPersons,fewoPersonsText,fewoQM,fewoQMText,fewoBeds,fewoBedsText,fewoFurnishings;{meta_legend}', $palette);
+    $GLOBALS['TL_DCA']['tl_page']['palettes'][$name] = str_replace('{meta_legend}', '{fewo_legend:hide},fewoName,fewoListText1,fewoListText2,fewoImage,fewoSliderImages,fewoPersons,fewoPersonsText,fewoQM,fewoQMText,fewoBeds,fewoBedsText,fewoFurnishings;{meta_legend}', $palette);
     $GLOBALS['TL_DCA']['tl_page']['fields']['type']['eval']['gallery_types'][] = $name;
 }
 $GLOBALS['TL_DCA']['tl_page']['fields']['fewoImage'] = array

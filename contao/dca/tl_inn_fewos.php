@@ -49,7 +49,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
         (
             'fields'                  => array('id','image', 'title'),
             'showColumns'             => true,
-            'label_callback'            => array('tl_inn_fewo_furnishing', 'getListData')
+            'label_callback'            => array('tl_inn_fewos', 'getListData')
         ),
         'global_operations' => array
         (
@@ -121,7 +121,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
 
     'palettes' => array
     (
-        'default'                     => '{title_legend},title,image,text,published;',
+        'default'                     => '{title_legend},name,additional_name,image,text,published;{data_legend},persons,beds,qm,furnishings;{address_legend},address_street,address_city,address_postcode;',
 
     ),
 
@@ -146,43 +146,100 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
         (
             'sql'                     => "int(10) unsigned NOT NULL default 0"
         ),
-        'title' => array
+        'name' => array
         (
             'exclude'                 => true,
             'search'                  => true,
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255),
+            'sql'                   => 'text  NULL',
+            'eval'                  => ['rte'=>'tinyMCE','mandatory'=>true],
+        ),
+        'additional_name' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'image' => array
         (
             'inputType'     => 'fileTree',
             'exclude'       => true,
-            'eval'          => array('mandatory'=>true,'fieldType'=>'radio', 'multiple'=>false, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
-            'sql'           => "blob  NULL",
-        ),
-        'list_image' => array
-        (
-            'inputType'     => 'fileTree',
-            'exclude'       => true,
             'eval'          => array('fieldType'=>'radio', 'multiple'=>false, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
             'sql'           => "blob  NULL",
         ),
-        'text' => array
+
+        'sliderImages' => array
+        (
+            'inputType'     => 'fileTree',
+            'exclude'       => true,
+            'eval'          => array('fieldType'=>'radio', 'orderField'=>'sliderImagesOrder', 'multiple'=>false, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
+            'sql'           => "blob NULL",
+        ),
+        'sliderImagesOrder' => array
+        (
+            'eval'          => array('doNotShow'=>true),
+            'sql'           => "blob NULL",
+        ),
+
+        'address_street' => array
         (
             'exclude'                 => true,
             'search'                  => true,
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255),
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
-
-        'show_on_list' => array
+        'address_city' => array
         (
             'exclude'                 => true,
             'search'                  => true,
-            'inputType'               => 'checkbox',
-            'sql'                     => "char(1) NOT NULL default ''"
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'address_postcode' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+
+        'persons' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'beds' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'qm' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'furnishings' => array
+        (
+            'exclude'               => true,
+            'search'                => true,
+            'inputType'             => 'checkbox',
+            'eval'                    => ['multiple'=>true],
+            'options_callback'        => ['tl_inn_fewos', 'getTableLabels'],
+            'sql'                   => 'blob  NULL'
         ),
 
         'published' => array
@@ -209,7 +266,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
 /**
  * Provide miscellaneous methods that are used by the data configuration array.
  */
-class tl_inn_fewo_furnishing extends Backend
+class tl_inn_fewos extends Backend
 {
     /**
      * Import the back end user object
@@ -229,10 +286,18 @@ class tl_inn_fewo_furnishing extends Backend
         $html = '<div class="inn-product-row" style="display: inline-flex;align-items: center;grid-gap:20px;">';
         $html.= '<span class="number">' . $product['id'] . '</span>';
         $html.= '<span class="p-image"><img style="max-width: 100px; max-height: 50px; height: auto;" src="' . $logo_path . '"/></span>';
-        $html.= '<span class="title">' . strip_tags($product['title']) . '</span>';
+        $html.= '<span class="title">' . strip_tags($product['name']) . '</span>';
         $html.= '</div>';
         return $html;
     }
-
+    public function getTableLabels()
+    {
+        $options = \Database::getInstance()->query("SELECT id,title FROM tl_inn_fewo_furnishing WHERE published=1 ORDER BY title")->fetchAllAssoc();
+        $return_array = array();
+        foreach ($options as $option){
+            $return_array[$option['id']] = $option['title'];
+        }
+        return $return_array;
+    }
 
 }

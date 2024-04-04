@@ -49,7 +49,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
         (
             'fields'                  => array('id','image', 'title'),
             'showColumns'             => true,
-            'label_callback'            => array('tl_inn_fewo_furnishing', 'getListData')
+            'label_callback'            => array('tl_inn_fewo_services', 'getListData')
         ),
         'global_operations' => array
         (
@@ -121,7 +121,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
 
     'palettes' => array
     (
-        'default'                     => '{title_legend},title,image,text,published;',
+        'default'                     => '{title_legend},title,image,icon,text,short_text,additional_boxes,published;',
 
     ),
 
@@ -158,24 +158,56 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
         (
             'inputType'     => 'fileTree',
             'exclude'       => true,
-            'eval'          => array('mandatory'=>true,'fieldType'=>'radio', 'multiple'=>false, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
+            'eval'          => array('fieldType'=>'radio', 'multiple'=>false, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
             'sql'           => "blob  NULL",
         ),
-        'list_image' => array
+        'icon' => array
         (
             'inputType'     => 'fileTree',
             'exclude'       => true,
             'eval'          => array('fieldType'=>'radio', 'multiple'=>false, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
             'sql'           => "blob  NULL",
         ),
+        'short_text' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'sql'                   => 'text  NULL',
+            'eval'                  => ['rte'=>'tinyMCE','mandatory'=>true],
+        ),
         'text' => array
         (
             'exclude'                 => true,
             'search'                  => true,
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255),
-            'sql'                     => "varchar(255) NOT NULL default ''"
+            'sql'                   => 'text  NULL',
+            'eval'                  => ['rte'=>'tinyMCE','mandatory'=>true],
         ),
+        'additional_boxes' => array
+        (
+            'inputType' => 'multiColumnWizard',
+            'eval' => array
+            (
+                'columnFields' => array
+                (
+                    'headline' => array
+                    (
+                        'label' => &$GLOBALS['TL_LANG']['tl_table_name']['headline'],
+                        'inputType' => 'text',
+                        'eval' => array('mandatory'=>true)
+                    ),
+                    'text' => array
+                    (
+                        'label' => &$GLOBALS['TL_LANG']['tl_table_name']['text'],
+                        'inputType' => 'textarea',
+                        'eval' => ['rte'=>'tinyMCE','mandatory'=>true],
+                    )
+                )
+            ),
+            'sql' => "blob NULL"
+        ),
+
 
         'show_on_list' => array
         (
@@ -209,7 +241,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
 /**
  * Provide miscellaneous methods that are used by the data configuration array.
  */
-class tl_inn_fewo_furnishing extends Backend
+class tl_inn_fewo_services extends Backend
 {
     /**
      * Import the back end user object
@@ -225,11 +257,18 @@ class tl_inn_fewo_furnishing extends Backend
         if ($objFile->path != '') {
             $logo_path = $objFile->path ;
             $img_error = '';
+        } else {
+            $objFile = \FilesModel::findByPk($product['icon']);
+            if ($objFile->path != '') {
+                $logo_path = $objFile->path ;
+                $img_error = '';
+            }
         }
+
         $html = '<div class="inn-product-row" style="display: inline-flex;align-items: center;grid-gap:20px;">';
         $html.= '<span class="number">' . $product['id'] . '</span>';
         $html.= '<span class="p-image"><img style="max-width: 100px; max-height: 50px; height: auto;" src="' . $logo_path . '"/></span>';
-        $html.= '<span class="title">' . strip_tags($product['title']) . '</span>';
+        $html.= '<span class="title">' . strip_tags($product['name']) . '</span>';
         $html.= '</div>';
         return $html;
     }
