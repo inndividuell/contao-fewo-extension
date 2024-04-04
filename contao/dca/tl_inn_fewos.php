@@ -238,6 +238,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
         'parking_slots' => array
         (
             'exclude'                 => true,
+            'fewo_field'              => true,
             'search'                  => true,
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
