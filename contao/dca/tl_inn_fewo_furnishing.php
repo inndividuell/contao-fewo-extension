@@ -19,7 +19,6 @@ use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Versions;
-$GLOBALS['TL_DCA']['tl_inn_fewo_furnishing']['config']['onload_callback'][] = ['tl_inn_fewo_furnishing', 'loadFewoDCA'];
 $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
 (
     // Config
@@ -246,6 +245,7 @@ class tl_inn_fewo_furnishing extends Backend
 
     public function getFewoFields()
     {
+        \Controller::loadDataContainer('tl_inn_fewos');
         $return_array = array();
         $fewo_fields = $GLOBALS['TL_DCA']['tl_inn_fewos']['fields'];
         foreach ($fewo_fields as $field_name =>$field){
@@ -257,9 +257,6 @@ class tl_inn_fewo_furnishing extends Backend
         }
         return $return_array;
     }
-    public static function loadFewoDCA() {
-        \Controller::loadDataContainer('tl_inn_fewos');
-        // Now you can access and manipulate the fields of tl_other_table
-    }
+
 
 }
