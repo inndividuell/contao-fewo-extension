@@ -124,7 +124,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing_list'] = array
         '__selector__'                => array('type'),
         'default'                     => '{title_legend},type,title,published;',
         'group'                         => '{title_legend},type,title,published;',
-        'furnishing'                    => '{title_legend},type,title,published;',
+        'furnishing'                    => '{title_legend},type,title,map_to_fewo_field,published;',
     ),
 
     // Fields
@@ -167,6 +167,15 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing_list'] = array
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255),
             'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'map_to_fewo_field' => array
+        (
+            'exclude'               => true,
+            'search'                => true,
+            'inputType'             => 'radio',
+            'eval'                    => ['multiple'=>false],
+            'options_callback'        => ['tl_inn_fewo_furnishing_list', 'getFewoFields'],
+            'sql'                   => 'blob  NULL'
         ),
 
         'published' => array
@@ -234,6 +243,7 @@ class tl_inn_fewo_furnishing_list extends Backend
         }
         return $return_array;
     }
+
 
 
 }
