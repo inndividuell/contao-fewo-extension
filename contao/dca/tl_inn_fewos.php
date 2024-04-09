@@ -271,6 +271,15 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
             'options_callback'        => ['tl_inn_fewos', 'getTableLabels'],
             'sql'                   => 'blob  NULL'
         ),
+        'furnishings_list_elements' => array
+        (
+            'exclude'               => true,
+            'search'                => true,
+            'inputType'             => 'checkbox',
+            'eval'                    => ['multiple'=>true],
+            'options_callback'        => ['tl_inn_fewos', 'getFurnishingListItems'],
+            'sql'                   => 'blob  NULL'
+        ),
         'detail_page' => array
         (
             'exclude'                 => true,
@@ -339,6 +348,15 @@ class tl_inn_fewos extends Backend
     public function getTableLabels()
     {
         $options = \Database::getInstance()->query("SELECT id,title FROM tl_inn_fewo_furnishing WHERE published=1 ORDER BY title")->fetchAllAssoc();
+        $return_array = array();
+        foreach ($options as $option){
+            $return_array[$option['id']] = $option['title'];
+        }
+        return $return_array;
+    }
+    public function getFurnishingListItems()
+    {
+        $options = \Database::getInstance()->query("SELECT id,title FROM tl_inn_fewo_furnishing_list WHERE published=1 AND type='furnishing' ORDER BY title")->fetchAllAssoc();
         $return_array = array();
         foreach ($options as $option){
             $return_array[$option['id']] = $option['title'];
