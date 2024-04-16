@@ -356,10 +356,14 @@ class tl_inn_fewos extends Backend
     }
     public function getFurnishingListItems()
     {
-        $options = \Database::getInstance()->query("SELECT id,title FROM tl_inn_fewo_furnishing_list WHERE published=1 AND type='furnishing' ORDER BY title")->fetchAllAssoc();
+        $option_groups = \Database::getInstance()->query("SELECT id,title FROM tl_inn_fewo_furnishing_list WHERE published=1 AND type='group' ORDER BY sorting ASC")->fetchAllAssoc();
         $return_array = array();
-        foreach ($options as $option){
-            $return_array[$option['id']] = $option['title'];
+        foreach ($option_groups as $option_group){
+
+            $options = \Database::getInstance()->query("SELECT id,title FROM tl_inn_fewo_furnishing_list WHERE published=1 AND type='furnishing' AND pid=" . $option_group['id'] . " ORDER BY sorting ASC")->fetchAllAssoc();
+            foreach ($options as $option) {
+                $return_array[$option_group['title']][$option['id']] = $option['title'];
+            }
         }
         return $return_array;
     }
