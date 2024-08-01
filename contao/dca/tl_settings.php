@@ -3,8 +3,8 @@
 
 $replaceString = '{fewo_legend:hide},fewoPriceColumns,fewoPriceRows';
 $GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] = str_replace(
-    ';{chmod_legend'
-    ,   $replaceString.';{chmod_legend'
+    ';{date_legend}'
+    ,   $replaceString.';{date_legend}'
     ,   $GLOBALS['TL_DCA']['tl_settings']['palettes']['default']
 );
 
