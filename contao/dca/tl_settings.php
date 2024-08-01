@@ -5,7 +5,7 @@ $replaceString = '{fewo_legend:hide},fewoPriceColumns,fewoPriceRows';
 $GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] = str_replace(
     ';{chmod_legend'
     ,   $replaceString.';{chmod_legend'
-    ,   $GLOBALS['TL_DCA']['tl_page']['palettes']['root']
+    ,   $GLOBALS['TL_DCA']['tl_settings']['palettes']['default']
 );
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['fewoPriceColumns'] = array
