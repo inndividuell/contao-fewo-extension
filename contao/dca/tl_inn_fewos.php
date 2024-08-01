@@ -253,6 +253,15 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
             'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
+        'level' => array
+        (
+            'exclude'                 => true,
+            'fewo_field'              => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
         'balconies' => array
         (
             'exclude'                 => true,
