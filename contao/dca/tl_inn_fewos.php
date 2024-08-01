@@ -348,7 +348,6 @@ class tl_inn_fewos extends Backend
             $img_error = '';
         }
         $html = '<div class="inn-product-row" style="display: inline-flex;align-items: center;grid-gap:20px;">';
-        $html.= '<span class="number">' . $product['id'] . '</span>';
         $html.= '<span class="p-image"><img style="max-width: 100px; max-height: 50px; height: auto;" src="' . $logo_path . '"/></span>';
         $html.= '<span class="title">' . strip_tags($product['name']) . '</span>';
         $html.= '</div>';

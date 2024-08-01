@@ -174,7 +174,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_services'] = array
             'search'                  => true,
             'inputType'               => 'text',
             'sql'                   => 'text  NULL',
-            'eval'                  => ['rte'=>'tinyMCE','mandatory'=>true],
+            'eval'                  => ['rte'=>'tinyMCE','mandatory'=>false],
         ),
         'text' => array
         (
@@ -265,7 +265,6 @@ class tl_inn_fewo_services extends Backend
         }
 
         $html = '<div class="inn-product-row" style="display: inline-flex;align-items: center;grid-gap:20px;">';
-        $html.= '<span class="number">' . $product['id'] . '</span>';
         $html.= '<span class="p-image"><img style="max-width: 100px; max-height: 50px; height: auto;" src="' . $logo_path . '"/></span>';
         $html.= '<span class="title">' . strip_tags($product['title']) . '</span>';
         $html.= '</div>';
