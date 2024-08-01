@@ -25,7 +25,6 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['fewoPriceColumns'] = array
             (
                 'label' => &$GLOBALS['TL_LANG']['tl_table_name']['text'],
                 'inputType' => 'textarea',
-                'eval' => ['rte'=>'tinyMCE'],
             )
         )
     ),
@@ -42,7 +41,6 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['fewoPriceRows'] = array
             (
                 'label' => &$GLOBALS['TL_LANG']['tl_table_name']['text'],
                 'inputType' => 'textarea',
-                'eval' => ['rte'=>'tinyMCE'],
             )
         )
     ),
