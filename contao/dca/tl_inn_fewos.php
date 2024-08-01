@@ -19,6 +19,36 @@ use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Versions;
+
+ function getPriceColumns(){
+    $options = unserialize(\Config::get('fewoPriceColumns'));
+    $returnOptions = array();
+    $returnOptions[] = array(
+        'label' => 'ReihenWert',
+        'inputType' => 'select',
+        'options' => getPriceRows()
+    );
+
+    foreach ($options as $option){
+        $returnOptions[] = array(
+            'label' => $option['text'],
+            'inputType' => 'text',
+        );
+    }
+    return $returnOptions;
+}
+
+function getPriceRows(){
+    $options = unserialize(\Config::get('fewoPriceRows'));
+    $returnOptions = array();
+
+
+    foreach ($options as $option){
+        $returnOptions[] = $option['text'];
+    }
+    return $returnOptions;
+}
+
 $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
 (
     // Config
@@ -298,6 +328,16 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
             'foreignKey'              => 'tl_page.title',
             'relation'                => array('type'=>'belongsTo', 'load'=>'lazy'),
         ),
+
+        'prices' => array
+        (
+            'inputType' => 'multiColumnWizard',
+            'eval' => array
+            (
+                'columnFields' =>  getPriceColumns()
+            ),
+            'sql' => "blob NULL"
+        ),
         'custom_url' => array
         (
             'exclude' => true,
@@ -375,5 +415,7 @@ class tl_inn_fewos extends Backend
         }
         return $return_array;
     }
+
+
 
 }
