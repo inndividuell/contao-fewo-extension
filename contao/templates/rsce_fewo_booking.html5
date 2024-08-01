@@ -1,0 +1,12 @@
+<?php
+  //https://login.smoobu.com/de/booking-tool/iframe/529357/1968182
+$uid = 'apartment_' . hash('sha256', uniqid());
+?>
+
+
+<?php if($this->booking_tool == 'smoobu'):?>
+    <div id="<?=$uid?>">
+        <script type="text/javascript" src="https://login.smoobu.com/js/Settings/BookingToolIframe.js"></script>
+        <script>BookingToolIframe.initialize({"url": "<?=$this->booking_url?>", "baseUrl": "https://login.smoobu.com", "target": "#<?=$uid?>"})</script>
+    </div>
+<?php endif;?>

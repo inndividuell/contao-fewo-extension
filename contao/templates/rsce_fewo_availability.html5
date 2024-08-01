@@ -1,0 +1,12 @@
+<?php
+  //https://login.smoobu.com/de/booking-tool/iframe/529357/1968182
+$uid = 'apartment_' . hash('sha256', uniqid());
+?>
+
+
+<div class="v-fewo-availabilty-calendar">
+    <?=$this->text?>
+    <?php if($this->booking_tool == 'smoobu'):?>
+    <script type="text/javascript" src="https://login.smoobu.com/js/Apartment/CalendarWidget.js"></script></div>
+    <?php endif;?>
+</div>

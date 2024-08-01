@@ -1,0 +1,44 @@
+<!-- rsce_boxes.html5 -->
+<?php
+if(TL_MODE == 'FE'):
+$this->import('Database');
+
+$container = System::getContainer();
+$rootDir = $container->getParameter('kernel.project_dir');
+$image_container = $container
+    ->get('contao.image.picture_factory');
+
+$uid = 'fewo_grid' . hash('sha256', uniqid());
+
+$page = $GLOBALS['objPage'];
+$pageId = $page->id;
+
+$sql = "SELECT * FROM tl_inn_fewos WHERE published = 1 AND detail_page=" . $pageId;
+$fewos = $this->Database->query($sql)->fetchAllAssoc();
+
+?>
+<div class="<?php echo $this->class ?> v-fewo-headline-container block " <?php echo $this->cssID ?>>
+    <?php if (sizeof($fewos) > 0): ?>
+        <?php
+        $fewo = $fewos[0];
+        $dataSorted = array_map('\StringUtil::binToUuid', deserialize($fewo['sliderImages'], true));
+        $counter = 1;
+        ?>
+    <div class="fewo-detail-headline-wrapper">
+        <div class="fewo-detail-headline-upper">
+            <div class="fewo-detail-headline-add-name">
+                <?=$fewo['additional_name']?>
+            </div>
+            <div class="fewo-detail-headline-street">
+                <?=$fewo['address_street']?>
+            </div>
+        </div>
+        <div class="fewo-detail-headline">
+            <h1><?=strip_tags($fewo['name'])?></h1>
+        </div>
+    </div>
+
+
+    <?php endif; ?>
+</div>
+<?php endif;?>

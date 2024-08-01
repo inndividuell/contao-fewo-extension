@@ -1,0 +1,38 @@
+<!-- rsce_boxes.html5 -->
+<?php
+$this->import('Database');
+$sql = "SELECT * FROM tl_inn_fewo_services WHERE published = 1";
+$services = $this->Database->query($sql)->fetchAllAssoc();
+?>
+<div class="<?php echo $this->class ?> v-fewo-service-teaser" <?php echo $this->cssID ?>>
+    <div class="v-fewo-service-teaser-grid">
+        <div class="v-fewo-service-text-container">
+            <div class="v-fewo-service-text">
+                <?=$this->text?>
+            </div>
+            <div class="v-button v-arrow-button">
+                <a <?php if($this->button_blank):?>target="_blank" <?php endif;?> href="<?=$this->button_url?>">
+                    <?=$this->button_text?>
+                </a>
+            </div>
+        </div>
+        <?php foreach ($services as $service):?>
+            <div class="single-fewo-teaser-box">
+                <div class="sftb-img">
+                    <?php if ($image = $this->arrData['getImageObject']($service['image'], $this->size)): ?>
+                        <?php $this->insert('picture_default', $image->picture) ?>
+                    <?php endif; ?>
+                </div>
+                <div class="sftb-text-container">
+                    <div class="sftb-headline">
+                        <h4><?=$service['title']?></h4>
+                    </div>
+                    <div class="sftb-text">
+                        <?=$service['short_text']?>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach;?>
+    </div>
+
+</div>

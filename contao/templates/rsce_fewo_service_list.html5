@@ -1,0 +1,61 @@
+<!-- rsce_boxes.html5 -->
+<?php
+$this->import('Database');
+$sql = "SELECT * FROM tl_inn_fewo_services WHERE published = 1";
+$services = $this->Database->query($sql)->fetchAllAssoc();
+?>
+<div class="<?php echo $this->class ?> v-fewo-service-list" <?php echo $this->cssID ?>>
+    <div class="v-fewo-service-list-grid">
+        <?php foreach ($services as $service):?>
+        <?php
+
+
+            ?>
+            <div class="single-fewo-list-box">
+                <div class="sftb-img">
+                    <?php if ($image = $this->arrData['getImageObject']($service['image'], $this->size)): ?>
+                        <?php $this->insert('picture_default', $image->picture) ?>
+                    <?php endif; ?>
+                </div>
+                <div class="sftb-text-container">
+                    <div class="sftb-headline">
+                        <h4><?=$service['title']?></h4>
+                    </div>
+                    <div class="sftb-text">
+                        <?=$service['text']?>
+                    </div>
+                    <?php if($service['additional_boxes']):?>
+                    <div id="fewoServiceAccordion<?=$service['id']?>" class="fewo-service-add-boxes">
+
+                        <?php $counter = 1; ?>
+                        <?php
+                            $boxes = unserialize($service['additional_boxes']);
+                            foreach ($boxes as $box):
+                                if($box['headline'] && $box['text']):
+                        ?>
+                            <div class="fewo-service-add-box-container">
+                                <div class="fewo-service-add-box-title-text-container v-accordion-title collapsed" data-toggle="collapse" data-target="#serviceAddBox<?=$service['id']?><?= $counter;?>" aria-expanded="false" aria-controls="serviceAddBox<?=$service['id']?><?= $counter;?>">
+                                    <div class="fewo-service-add-box-title">
+                                        <?=$box['headline']?>
+                                    </div>
+                                    <div class="v-accordion-icon"></div>
+                                </div>
+                                <div id="serviceAddBox<?=$service['id']?><?=$counter?>" class="collapse " data-parent="#fewoServiceAccordion<?=$service['id']?>">
+                                    <div  class="v-service-add-box-text v-accordion-body">
+                                        <?=$box['text']?>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <?php $counter++;?>
+                                <?php endif;?>
+                            <?php endforeach;?>
+                    </div>
+                    <?php endif;?>
+                </div>
+            </div>
+        <?php endforeach;?>
+    </div>
+
+</div>

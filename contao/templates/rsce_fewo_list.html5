@@ -1,0 +1,116 @@
+<!-- rsce_boxes.html5 -->
+<?php
+if(TL_MODE == 'FE'):
+$this->import('Database');
+
+$container = System::getContainer();
+$rootDir = $container->getParameter('kernel.project_dir');
+$image_container = $container
+    ->get('contao.image.picture_factory');
+
+$uid = 'fewo_grid' . hash('sha256', uniqid());
+
+$sql = "SELECT * FROM tl_inn_fewos WHERE published = 1";
+$fewos = $this->Database->query($sql)->fetchAllAssoc();
+
+?>
+<div  class="<?php echo $this->class ?> v-fewo-list block " <?php echo $this->cssID ?>>
+    <div id="<?=$uid?>" class="v-fewo-grid" style="display: grid">
+        <?php foreach ($fewos as $fewo):?>
+        <?php
+            $pageModel = PageModel::findById($fewo['detail_page']);
+            $url = $pageModel->getFrontendUrl();
+
+            $image = deserialize($fewo["image"]);
+            $objFile = FilesModel::findByUuid($image); //Bilddaten über uuid holen
+            $picture = $image_container->create($rootDir.'/'.$objFile->path,  $this->size); //Bildgröße aus Themes setzen -> ID = 1
+            $dataImg = [
+                'img' => $picture->getImg($rootDir),
+                'sources' => $picture->getSources($rootDir),
+            ];
+            $furnishings_ids = unserialize($fewo['furnishings']);
+            $sql_furnishings = "SELECT * FROM tl_inn_fewo_furnishing WHERE";
+            $fids_counter = 1;
+            foreach ($furnishings_ids as $furnishings_id){
+                $sql_furnishings .= " id = ".$furnishings_id;
+                $sql_furnishings .= ($fids_counter < count($furnishings_ids)) ? " OR" : "";
+                $fids_counter++;
+            }
+//            $sql_furnishings.=" ORDER BY sorting ASC";
+            $furnishings = $this->Database->query($sql_furnishings)->fetchAllAssoc();
+
+            ?>
+            <a href="<?=$url?>" class="single-fewo-list-object">
+                <div class="sf-img">
+                    <?php $this->insert('picture_default', $dataImg); ?>
+                </div>
+                <div class="sf-content-wrapper">
+                    <div class="sf-left-text-container">
+                        <div class="sf-top-text-container">
+                            <div class="sf-additional_name">
+                                <?=$fewo['additional_name']?>
+                            </div>
+                            <div class="sf-street">
+                                <?=$fewo['address_street']?>
+                            </div>
+                        </div>
+                        <div class="sf-bottom-text-container">
+                            <div class="sf-name">
+                                <h3><?=$fewo['name']?></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sf-url-icon">
+                        <?php if ($image = $this->arrData['getImageObject']($this->icon, array('',''))): ?>
+                            <?php $this->insert('picture_default', $image->picture) ?>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="sf-content-icons">
+                        <?php $furnishing_counter = 1;?>
+                        <?php foreach($furnishings as $furnishing):?>
+                            <?php if($furnishing['show_on_list'] && $fewo[$furnishing['map_to_fewo_field']]):?>
+                            <div class="single-furnishing-icon-container <?php if($furnishing_counter>3):?>v-fewo-list-icon-show-on-hover<?php endif;?>">
+                                <div class="single-furnishing-icon">
+                                <?php if ($image = $this->arrData['getImageObject']($furnishing['list_image'], array('',''))): ?>
+                                    <?php $this->insert('picture_default', $image->picture) ?>
+                                <?php endif; ?>
+                                </div>
+                                <div class="single-furnishing-icon-text">
+                                    <?=$fewo[$furnishing['map_to_fewo_field']]?>
+                                </div>
+                            </div>
+                            <div class="single-furnishing-icon-line <?php if($furnishing_counter>3):?>v-fewo-list-icon-show-on-hover<?php endif;?>"></div>
+                                <?php $furnishing_counter++;?>
+                            <?php endif;?>
+                        <?php endforeach;?>
+                    </div>
+
+                </div>
+            </a>
+        <?php endforeach;?>
+    </div>
+
+
+</div>
+
+<style>
+    <?php foreach ($this->boxes as $box):?>
+
+    <?php if(!$box->breakpoint):?>
+        #<?=$uid?> {
+            grid-template-columns: repeat(<?=$box->columns?>,1fr);
+            grid-gap:<?=$box->grid_gap?>
+        }
+    <?php else:?>
+    @media screen and (max-width: <?=$box->breakpoint?>px) {
+        #<?=$uid?> {
+        grid-template-columns: repeat(<?=$box->columns?>,1fr);
+        grid-gap:<?=$box->grid_gap?>
+        }
+    }
+    <?php endif;?>
+    <?php endforeach;?>
+
+</style>
+<?php endif;?>

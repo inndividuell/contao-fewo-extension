@@ -1,0 +1,71 @@
+<!-- rsce_boxes.html5 -->
+<?php
+if(TL_MODE == 'FE'):
+$this->import('Database');
+
+$container = System::getContainer();
+$rootDir = $container->getParameter('kernel.project_dir');
+$image_container = $container
+    ->get('contao.image.picture_factory');
+
+$uid = 'fewo_grid' . hash('sha256', uniqid());
+
+$page = $GLOBALS['objPage'];
+$pageId = $page->id;
+
+$sql = "SELECT * FROM tl_inn_fewos WHERE published = 1 AND detail_page=" . $pageId;
+$fewos = $this->Database->query($sql)->fetchAllAssoc();
+
+?>
+<div class="<?php echo $this->class ?> v-fewo-detail-icons block " <?php echo $this->cssID ?>>
+    <?php if (sizeof($fewos) > 0): ?>
+        <?php
+        $fewo = $fewos[0];
+        $dataSorted = array_map('\StringUtil::binToUuid', deserialize($fewo['sliderImages'], true));
+        $counter = 1;
+        $furnishings_ids = unserialize($fewo['furnishings']);
+        $sql_furnishings = "SELECT * FROM tl_inn_fewo_furnishing WHERE";
+        $fids_counter = 1;
+        foreach ($furnishings_ids as $furnishings_id){
+            $sql_furnishings .= " id = ".$furnishings_id;
+            $sql_furnishings .= ($fids_counter < count($furnishings_ids)) ? " OR" : "";
+            $fids_counter++;
+        }
+        $sql_furnishings.=" ORDER BY sorting ASC";
+        $furnishings = $this->Database->query($sql_furnishings)->fetchAllAssoc();
+
+        ?>
+        <div class="v-fewo-detail-icons-container">
+            <?php foreach($furnishings as $furnishing):?>
+                <?php if($furnishing['show_on_detail']):?>
+                    <div class="single-furnishing-icon-container">
+                        <div class="single-furnishing-icon">
+                            <?php if ($image = $this->arrData['getImageObject']($furnishing['image'], array('',''))): ?>
+                                <?php $this->insert('picture_default', $image->picture) ?>
+                            <?php endif; ?>
+                        </div>
+                        <div class="single-furnishing-icon-text">
+                            <?=$fewo[$furnishing['map_to_fewo_field']]?> <?=$furnishing['text']?>
+                        </div>
+                    </div>
+                <?php endif;?>
+            <?php endforeach;?>
+            <?php if($this->button_url && ($this->button_text || $this->icon)):?>
+                <div class="v-fewo-icon-button">
+                    <a href="<?=$this->button_url?>" <?php if($this->blank):?>target="_blank" <?php endif;?>>
+                        <?php if($this->icon):?>
+                            <?php if ($image = $this->arrData['getImageObject']($this->icon, array('',''))): ?>
+                                <?php $this->insert('picture_default', $image->picture) ?>
+                            <?php endif; ?>
+                        <?php else:?>
+                            <?=$this->button_text?>
+                        <?php endif;?>
+                    </a>
+                </div>
+            <?php endif;?>
+        </div>
+
+
+    <?php endif; ?>
+</div>
+<?php endif;?>

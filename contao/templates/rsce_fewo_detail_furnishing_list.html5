@@ -1,0 +1,90 @@
+<!-- rsce_boxes.html5 -->
+<?php
+if(TL_MODE == 'FE'):
+$this->import('Database');
+
+$container = System::getContainer();
+$rootDir = $container->getParameter('kernel.project_dir');
+$image_container = $container
+    ->get('contao.image.picture_factory');
+
+$uid = 'fewo_grid' . hash('sha256', uniqid());
+
+$page = $GLOBALS['objPage'];
+$pageId = $page->id;
+
+$sql = "SELECT * FROM tl_inn_fewos WHERE published = 1 AND detail_page=" . $pageId;
+$fewos = $this->Database->query($sql)->fetchAllAssoc();
+
+?>
+<div class="<?php echo $this->class ?> v-fewo-detail-furnishing-list block " <?php echo $this->cssID ?>>
+    <?php if (sizeof($fewos) > 0): ?>
+        <?php
+        $fewo = $fewos[0];
+        $dataSorted = array_map('\StringUtil::binToUuid', deserialize($fewo['sliderImages'], true));
+        $counter = 1;
+        $furnishings_list_ids = unserialize($fewo['furnishings_list_elements']);
+        $sql_furnishings = "SELECT * FROM tl_inn_fewo_furnishing_list WHERE pid=0";
+
+
+        $sql_furnishings.=" ORDER BY sorting ASC";
+        $furnishings_groups = $this->Database->query($sql_furnishings)->fetchAllAssoc();
+
+        ?>
+        <div id="fewoFurnishingListAccordion" class="v-fewo-detail-furnishing-list-container">
+            <?php $counter = 1; ?>
+            <?php foreach($furnishings_groups as $furnishings_group):?>
+                <?php
+                $fids_counter = 1;
+                $sql_furnishings_elements = null;
+                $sql_furnishings_elements = "SELECT * FROM tl_inn_fewo_furnishing_list WHERE pid=".$furnishings_group['id'];
+                if($furnishings_list_ids) :
+                    if (count($furnishings_list_ids) > 0) {
+                        $sql_furnishings_elements .= " AND (";
+                        foreach ($furnishings_list_ids as $furnishings_id) {
+                            $sql_furnishings_elements .= " id = " . $furnishings_id;
+                            $sql_furnishings_elements .= ($fids_counter < count($furnishings_list_ids)) ? " OR" : ")";
+                            $fids_counter++;
+                        }
+                    }
+
+
+                $sql_furnishings_elements.=" ORDER BY sorting ASC";
+                $furnishings_elements = $this->Database->query($sql_furnishings_elements)->fetchAllAssoc();
+                if(sizeof($furnishings_elements)>0):
+                ?>
+                <div class="v-fewo-detail-furnishing-list-group">
+
+                    <div class="v-fewo-furnishing-list-group-title-container v-accordion-title <?php if($counter!=1):?>collapsed<?php endif;?>" data-toggle="collapse" data-target="#furnishingList<?= $counter;?>" aria-expanded="false" aria-controls="furnishingList<?= $counter;?>">
+                        <div class="v-fewo-furnishing-list-group-title ">
+                            <?=$furnishings_group['title']?>
+                        </div>
+                        <div class="v-accordion-icon">
+
+                        </div>
+                    </div>
+                    <div id="furnishingList<?=$counter?>" class="collapse <?php if($counter==1):?>show<?php endif;?>" data-parent="#fewoFurnishingListAccordion">
+                        <div  class="v-fewo-furnishing-list-furnishing-list v-accordion-body" >
+                            <ul>
+                                <?php foreach($furnishings_elements as $furnishings_element):?>
+                                    <li>
+                                        <?php if($furnishings_element['map_to_fewo_field']):?>
+                                            <?=$fewo[$furnishings_element['map_to_fewo_field']]?>
+                                        <?php endif;?>
+                                        <?=$furnishings_element['title']?>
+                                    </li>
+                                <?php endforeach;?>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            <?php $counter++?>
+                <?php endif;?>
+                <?php endif;?>
+            <?php endforeach;?>
+        </div>
+
+    <?php endif; ?>
+</div>
+<?php endif;?>

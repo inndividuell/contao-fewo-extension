@@ -1,0 +1,61 @@
+<!-- rsce_boxes.html5 -->
+<?php
+if(TL_MODE == 'FE'):
+$this->import('Database');
+
+$container = System::getContainer();
+$rootDir = $container->getParameter('kernel.project_dir');
+$image_container = $container
+    ->get('contao.image.picture_factory');
+
+$uid = 'fewo_grid' . hash('sha256', uniqid());
+
+$page = $GLOBALS['objPage'];
+$pageId = $page->id;
+
+$sql = "SELECT * FROM tl_inn_fewos WHERE published = 1 AND detail_page=" . $pageId;
+$fewos = $this->Database->query($sql)->fetchAllAssoc();
+$fewo = $fewos[0];
+    $key = \Config::get('dlh_googlemaps_apikey');
+        $GLOBALS['TL_JAVASCRIPT'][] = 'https://maps.googleapis.com/maps/api/js?key=' . $key . '&language=de';
+    ?>
+<div class="<?php echo $this->class ?> v-fewo-google-maps block " <?php echo $this->cssID ?>>
+    <div id="fewoMap" class="v-map-container" style="width: 100%; height: 400px;"></div>
+    <script>
+        try{
+            
+        
+        var address = '<?=$fewo['address_street'].' '.$fewo['address_postcode'].' '.$fewo['address_city'].' Deutschland'?>';
+        var geocoder = new google.maps.Geocoder();
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('fewoMap'), {
+                zoom: 17
+            });
+
+            geocoder.geocode({'address': address}, function(results, status) {
+                console.log("result");
+                console.log(results);
+                console.log("status");
+                console.log(status);
+                console.log(results[0].geometry.location);
+                if (status === 'OK') {
+                    map.setCenter(results[0].geometry.location);
+                    new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location
+                    });
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+        $(window).on('load',function(){
+            initMap();
+        })
+        }catch (e) {
+            
+        }
+    </script>
+</div>
+<?php endif;?>

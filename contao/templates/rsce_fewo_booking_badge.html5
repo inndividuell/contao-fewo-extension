@@ -1,0 +1,26 @@
+<!-- rsce_boxes.html5 -->
+<?php
+if(TL_MODE == 'FE'):
+$this->import('Database');
+
+$container = System::getContainer();
+$rootDir = $container->getParameter('kernel.project_dir');
+$image_container = $container
+    ->get('contao.image.picture_factory');
+
+$uid = 'fewo_grid' . hash('sha256', uniqid());
+
+?>
+<div  class="<?php echo $this->class ?> v-fewo-booking-badge block " <?php echo $this->cssID ?>>
+
+    <div class="inner-booking-badge">
+        <div class="booking-badge-icon">
+            <?php if ($image = $this->arrData['getImageObject']($this->icon, array('',''))): ?>
+                <?php $this->insert('picture_default', $image->picture) ?>
+            <?php endif; ?>
+        </div>
+    </div>
+
+</div>
+
+<?php endif;?>
