@@ -190,7 +190,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
             'search'                  => true,
             'inputType'               => 'text',
             'sql'                   => 'text  NULL',
-            'eval'                  => ['rte'=>'tinyMCE','mandatory'=>true],
+            'eval'                  => ['rte'=>'tinyMCE','mandatory'=>false],
         ),
         'additional_name' => array
         (
@@ -336,7 +336,14 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
             'foreignKey'              => 'tl_page.title',
             'relation'                => array('type'=>'belongsTo', 'load'=>'lazy'),
         ),
-
+        'price_for_list' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'sql'                   => 'text  NULL',
+            'eval'                  => ['rte'=>'tinyMCE','mandatory'=>false],
+        ),
         'prices' => array
         (
             'inputType' => 'multiColumnWizard',
