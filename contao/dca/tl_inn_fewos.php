@@ -151,7 +151,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
 
     'palettes' => array
     (
-        'default'                     => '{title_legend},name,additional_name,image,text,detail_page,custom_url,published;{data_legend},sliderImages,persons,beds,qm,level,balconies,parking_slots,bathrooms,furnishings,furnishings_list_elements,prices;{address_legend},address_street,address_city,address_postcode;',
+        'default'                     => '{title_legend},name,name_for_list,additional_name,image,text,detail_page,custom_url,published;{data_legend},sliderImages,persons,beds,qm,level,balconies,parking_slots,bathrooms,furnishings,furnishings_list_elements,prices;{address_legend},address_street,address_city,address_postcode;',
 
     ),
 
@@ -177,6 +177,14 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
             'sql'                     => "int(10) unsigned NOT NULL default 0"
         ),
         'name' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'sql'                   => 'text  NULL',
+            'eval'                  => ['rte'=>'tinyMCE','mandatory'=>true],
+        ),
+        'name_for_list' => array
         (
             'exclude'                 => true,
             'search'                  => true,

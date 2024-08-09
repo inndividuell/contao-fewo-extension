@@ -21,4 +21,9 @@ $GLOBALS['BE_MOD']['inn_fewo']['inn_fewo_furnishing_list'] = array(
 $GLOBALS['BE_MOD']['inn_fewo']['inn_fewo_services'] = array(
     'tables' => array('tl_inn_fewo_services')
 );
+$GLOBALS['BE_MOD']['inn_fewo']['inn_fewo_activities'] = array(
+    'tables' => array('tl_inn_fewo_activities')
+);
+
+
 
