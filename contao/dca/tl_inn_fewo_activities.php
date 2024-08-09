@@ -121,6 +121,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_activities'] = array
 
     'palettes' => array
     (
+        '__selector__' => ['type'],
         'default'                     => '{title_legend},title,type;',
         'group'                     => '{title_legend},title,type,icon,published;',
         'activity'                     => '{title_legend},title,type,image,text,url,published;',
