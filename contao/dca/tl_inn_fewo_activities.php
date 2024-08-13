@@ -166,8 +166,8 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_activities'] = array
             'exclude'                 => true,
             'search'                  => true,
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255),
-            'sql'                     => "varchar(255) NOT NULL default ''"
+            'eval'                    => array('rte'=>'tinyMCE','mandatory'=>true, 'maxlength'=>1024),
+            'sql'                     => "varchar(1024) NOT NULL default ''"
         ),
         'icon' => array
         (
