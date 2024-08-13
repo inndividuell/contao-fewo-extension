@@ -123,7 +123,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_activities'] = array
     (
         '__selector__' => ['type'],
         'default'                     => '{title_legend},title,type;',
-        'group'                     => '{title_legend},title,type,icon,published;',
+        'group'                     => '{title_legend},title,title_teaser,type,icon,image,published;',
         'activity'                     => '{title_legend},title,type,image,text,url,published;',
 
     ),
@@ -162,6 +162,14 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_activities'] = array
             'sql'                     => "varchar(64) NOT NULL default 'activity'"
         ),
         'title' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'eval'                    => array('rte'=>'tinyMCE','mandatory'=>true, 'maxlength'=>1024),
+            'sql'                     => "varchar(1024) NOT NULL default ''"
+        ),
+        'title_teaser' => array
         (
             'exclude'                 => true,
             'search'                  => true,
