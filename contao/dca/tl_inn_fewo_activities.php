@@ -188,7 +188,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_activities'] = array
             'exclude'                 => true,
             'search'                  => true,
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true,'rte'=>'tinyMCE', 'maxlength'=>1024),
+            'eval'                    => array('mandatory'=>false,'rte'=>'tinyMCE', 'maxlength'=>1024),
             'sql'                     => "varchar(1024) NOT NULL default ''"
         ),
         'url' => array
@@ -196,7 +196,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_activities'] = array
             'exclude'                 => true,
             'search'                  => true,
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255),
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
 
@@ -241,6 +241,11 @@ class tl_inn_fewo_activities extends Backend
         if ($objFile->path != '') {
             $logo_path = $objFile->path ;
             $img_error = '';
+            $objFile = \FilesModel::findByPk($product['icon']);
+            if ($objFile->path != '') {
+                $logo_path = $objFile->path ;
+                $img_error = '';
+            }
         }
         $html = '<div class="inn-product-row" style="display: inline-flex;align-items: center;grid-gap:20px;">';
         $html.= '<span class="p-image"><img style="max-width: 100px; max-height: 50px; height: auto;" src="' . $logo_path . '"/></span>';
