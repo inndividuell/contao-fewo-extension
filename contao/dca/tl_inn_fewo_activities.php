@@ -241,6 +241,9 @@ class tl_inn_fewo_activities extends Backend
         if ($objFile->path != '') {
             $logo_path = $objFile->path ;
             $img_error = '';
+
+
+        } else {
             $objFile = \FilesModel::findByPk($product['icon']);
             if ($objFile->path != '') {
                 $logo_path = $objFile->path ;
