@@ -161,6 +161,14 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_activities'] = array
             ),
             'sql'                     => "varchar(64) NOT NULL default 'activity'"
         ),
+        'pre_headline' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'eval'                    => array('rte'=>'tinyMCE','mandatory'=>false, 'maxlength'=>1024),
+            'sql'                     => "varchar(1024) NOT NULL default ''"
+        ),
         'title' => array
         (
             'exclude'                 => true,
