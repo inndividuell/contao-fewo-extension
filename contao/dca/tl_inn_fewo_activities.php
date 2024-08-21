@@ -123,8 +123,8 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_activities'] = array
     (
         '__selector__' => ['type'],
         'default'                     => '{title_legend},title,type;',
-        'group'                     => '{title_legend},title,title_teaser,type,icon,image,published;',
-        'activity'                     => '{title_legend},pre_headline,title,type,image,text,url,published;',
+        'group'                     => '{title_legend},pre_headline,title,title_teaser,type,icon,image,published;',
+        'activity'                     => '{title_legend},title,type,image,text,url,published;',
 
     ),
 
