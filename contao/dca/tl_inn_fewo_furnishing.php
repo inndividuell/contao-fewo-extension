@@ -158,7 +158,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
         (
             'inputType'     => 'fileTree',
             'exclude'       => true,
-            'eval'          => array('mandatory'=>true,'fieldType'=>'radio', 'multiple'=>false, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
+            'eval'          => array('mandatory'=>false,'fieldType'=>'radio', 'multiple'=>false, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
             'sql'           => "blob  NULL",
         ),
         'list_image' => array

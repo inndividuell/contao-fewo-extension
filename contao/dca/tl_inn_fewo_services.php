@@ -182,7 +182,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_services'] = array
             'search'                  => true,
             'inputType'               => 'text',
             'sql'                   => 'text  NULL',
-            'eval'                  => ['rte'=>'tinyMCE','mandatory'=>true],
+            'eval'                  => ['rte'=>'tinyMCE','mandatory'=>false],
         ),
         'additional_boxes' => array
         (
