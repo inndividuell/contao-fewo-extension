@@ -121,7 +121,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
 
     'palettes' => array
     (
-        'default'                     => '{title_legend},title,image,list_image,text,map_to_fewo_field,show_on_list,show_on_detail,published;',
+        'default'                     => '{title_legend},title,image,list_image,text,pre_text_custom,post_text_custom,map_to_fewo_field,hide_standard_text,show_on_list,show_on_detail,published;',
 
     ),
 
@@ -168,6 +168,22 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
             'eval'          => array('fieldType'=>'radio', 'multiple'=>false, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
             'sql'           => "blob  NULL",
         ),
+        'pre_text_custom' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'post_text_custom' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>false, 'maxlength'=>255),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
         'text' => array
         (
             'exclude'                 => true,
@@ -176,7 +192,13 @@ $GLOBALS['TL_DCA']['tl_inn_fewo_furnishing'] = array
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
-
+        'hide_standard_text' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'checkbox',
+            'sql'                     => "char(1) NOT NULL default ''"
+        ),
         'show_on_list' => array
         (
             'exclude'                 => true,
