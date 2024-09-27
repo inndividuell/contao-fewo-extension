@@ -151,7 +151,7 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
 
     'palettes' => array
     (
-        'default'                     => '{title_legend},name,name_for_list,list_additional_text,additional_name,image,text,detail_page,custom_url,published;{data_legend},sliderImages,persons,beds,qm,level,balconies,parking_slots,bathrooms,furnishings,furnishings_list_elements,price_for_list,prices;{address_legend},address_street,address_city,address_postcode;',
+        'default'                     => '{title_legend},name,name_for_list,list_additional_text,additional_name,image,text,detail_page,custom_url,published;{data_legend},galleryImages,sliderImages,persons,beds,qm,level,balconies,parking_slots,bathrooms,furnishings,furnishings_list_elements,price_for_list,prices;{address_legend},address_street,address_city,address_postcode;',
 
     ),
 
@@ -215,7 +215,18 @@ $GLOBALS['TL_DCA']['tl_inn_fewos'] = array
             'eval'          => array('fieldType'=>'radio', 'multiple'=>false, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
             'sql'           => "blob  NULL",
         ),
-
+        'galleryImages' => array
+        (
+            'inputType'     => 'fileTree',
+            'exclude'       => true,
+            'eval'          => array('fieldType'=>'checkbox', 'orderField'=>'galleryImagesOrder', 'multiple'=>true, 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'isGallery'=>false),
+            'sql'           => "blob NULL",
+        ),
+        'galleryImagesOrder' => array
+        (
+            'eval'          => array('doNotShow'=>true),
+            'sql'           => "blob NULL",
+        ),
         'sliderImages' => array
         (
             'inputType'     => 'fileTree',
